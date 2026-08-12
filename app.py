@@ -1,6 +1,6 @@
 """
 ⚡ Karan Bhardwaj — Conversational AI & Resume RAG Portal
-Built with LangChain, Groq API (LLaMA 3.3 70B), and Multi-VectorStore support.
+Engineered with LangChain LCEL, Groq LPU™ (LLaMA 3.3 70B), and Multi-VectorStore Architecture.
 """
 
 import os
@@ -22,87 +22,274 @@ from src.memory import MemoryManager
 from src.rag_chain import ConversationalRAGChain
 
 # -----------------------------------------------------------------------------
-# Page Configuration & Modern Styling
+# 1. Page Configuration & Professional Design System
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Karan Bhardwaj | Conversational AI RAG",
+    page_title="Karan Bhardwaj | AI Systems & Resume RAG",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
+# Custom High-End Styling
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap');
-    
-    html, body, [class*="css"] {
-        font-family: 'Outfit', sans-serif;
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+        --bg-dark: #0B0F19;
+        --card-bg: #151C2C;
+        --card-border: rgba(255, 255, 255, 0.08);
+        --accent-gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+        --accent-blue: #3B82F6;
+        --text-main: #F8FAFC;
+        --text-muted: #94A3B8;
     }
-    
-    .hero-title {
-        font-size: 2.3rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 50%, #FFA07A 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 0.1rem;
+
+    * {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    
-    .hero-subtitle {
-        font-size: 1.1rem;
-        color: #a0aec0;
-        margin-bottom: 1.2rem;
+
+    code, pre {
+        font-family: 'JetBrains Mono', monospace !important;
     }
-    
-    .social-pill {
+
+    /* Main Container Cleanup */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 4rem !important;
+        max-width: 1100px !important;
+    }
+
+    /* Hide standard Streamlit header clutter */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {background: transparent !important;}
+
+    /* Sidebar Profile Card */
+    .profile-container {
+        background: linear-gradient(180deg, #182235 0%, #111726 100%);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--accent-gradient);
+    }
+
+    .avatar-badge {
         display: inline-flex;
         align-items: center;
-        padding: 0.35rem 0.85rem;
-        font-size: 0.82rem;
+        justify-content: center;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--accent-gradient);
+        color: white;
+        font-weight: 800;
+        font-size: 1.4rem;
+        box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.5);
+        margin-bottom: 0.85rem;
+    }
+
+    .profile-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .verified-icon {
+        color: #38BDF8;
+        font-size: 1rem;
+    }
+
+    .profile-role {
+        font-size: 0.85rem;
         font-weight: 600;
+        color: #818CF8;
+        margin-top: 2px;
+        margin-bottom: 0.75rem;
+    }
+
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        background: rgba(34, 197, 94, 0.12);
+        color: #4ADE80;
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        padding: 0.25rem 0.65rem;
         border-radius: 9999px;
-        background: rgba(255, 107, 107, 0.12);
-        color: #ff8e53;
-        border: 1px solid rgba(255, 107, 107, 0.3);
-        text-decoration: none;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #22C55E;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #22C55E;
+    }
+
+    .social-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 0.45rem 0.6rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #E2E8F0 !important;
+        text-decoration: none !important;
         transition: all 0.2s ease;
     }
-    .social-pill:hover {
-        background: rgba(255, 107, 107, 0.25);
-        color: #ffffff;
-        border-color: #ff6b6b;
+
+    .social-btn:hover {
+        background: rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.4);
+        color: #FFFFFF !important;
+        transform: translateY(-1px);
     }
 
-    .profile-card {
-        background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 1.25rem;
-        margin-bottom: 1.5rem;
+    /* Hero Header */
+    .hero-wrapper {
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        padding: 2rem 2.2rem;
+        margin-bottom: 1.75rem;
+        position: relative;
+        backdrop-filter: blur(16px);
     }
 
-    .source-card {
-        border-left: 3px solid #ff6b6b;
-        background-color: rgba(255, 107, 107, 0.05);
-        padding: 0.75rem 1rem;
-        border-radius: 0 10px 10px 0;
-        margin-bottom: 0.6rem;
+    .hero-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(99, 102, 241, 0.15);
+        color: #A5B4FC;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 9999px;
+        padding: 0.3rem 0.85rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 0.85rem;
     }
 
-    .prompt-btn {
-        margin-bottom: 0.5rem;
+    .hero-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #FFFFFF;
+        margin: 0 0 0.5rem 0;
+        letter-spacing: -0.02em;
     }
-    
-    .footer-container {
+
+    .hero-title span {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+        color: #94A3B8;
+        font-size: 0.98rem;
+        line-height: 1.6;
+        max-width: 850px;
+        margin: 0;
+    }
+
+    /* Quick Prompt Cards */
+    .card-prompt-btn {
+        background: #151C2C;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        padding: 0.9rem 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        margin-bottom: 0.75rem;
+    }
+
+    .card-prompt-btn:hover {
+        border-color: #6366F1;
+        background: #1A2338;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px -5px rgba(99, 102, 241, 0.25);
+    }
+
+    /* Source Citation Cards */
+    .source-box {
+        background: #111726;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-left: 3px solid #818CF8;
+        border-radius: 0 12px 12px 0;
+        padding: 0.85rem 1.1rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .source-title {
+        color: #A5B4FC;
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+    }
+
+    .source-snippet {
+        color: #CBD5E1;
+        font-size: 0.85rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+
+    /* Professional Footer */
+    .site-footer {
         text-align: center;
-        padding: 2rem 0 1rem 0;
-        color: #718096;
-        font-size: 0.88rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        margin-top: 3rem;
+        padding: 2.5rem 1rem 1rem 1rem;
+        color: #64748B;
+        font-size: 0.85rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: 3.5rem;
+    }
+    .site-footer a {
+        color: #818CF8;
+        text-decoration: none;
+        margin: 0 6px;
+        font-weight: 500;
+    }
+    .site-footer a:hover {
+        color: #C7D2FE;
+        text-decoration: underline;
     }
     </style>
     """,
@@ -110,153 +297,155 @@ st.markdown(
 )
 
 # -----------------------------------------------------------------------------
-# State Management Initialization
+# 2. State & Knowledge Ingestion Engine
 # -----------------------------------------------------------------------------
-default_config = RAGConfig()
 RESUME_PATH = Path(__file__).parent / "sample_data" / "karan_bhardwaj_resume.md"
+default_config = RAGConfig()
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "session_id" not in st.session_state:
-    st.session_state.session_id = "karan_rag_session_1"
+    st.session_state.session_id = "karan_ai_session"
 
 if "rag_chain" not in st.session_state:
     st.session_state.rag_chain = None
-
-if "indexed_docs_count" not in st.session_state:
-    st.session_state.indexed_docs_count = 0
 
 if "indexed_chunks_count" not in st.session_state:
     st.session_state.indexed_chunks_count = 0
 
 if "active_vector_store" not in st.session_state:
-    st.session_state.active_vector_store = None
+    st.session_state.active_vector_store = "FAISS"
 
-if "auto_indexed" not in st.session_state:
-    st.session_state.auto_indexed = False
+if "quick_prompt_query" not in st.session_state:
+    st.session_state.quick_prompt_query = None
 
 
-# Helper function to index documents
-def initialize_rag_system(docs, api_key, model_name, store_type, embed_name, c_size, c_overlap, k, temp):
-    splitter = TextSplitterManager(chunk_size=c_size, chunk_overlap=c_overlap)
+# Cached RAG Initializer to ensure instantaneous response times
+@st.cache_resource(show_spinner=False)
+def load_cached_rag_engine(api_key: str, model_name: str, store_type: str, embedding_model: str):
+    """Builds and caches the vector store & RAG pipeline from Karan Bhardwaj's resume."""
+    if not RESUME_PATH.exists():
+        return None, 0
+
+    docs = DocumentLoaderManager.load_from_file(str(RESUME_PATH))
+    splitter = TextSplitterManager(chunk_size=800, chunk_overlap=150)
     chunks = splitter.split_documents(docs)
-    embeddings = get_embedding_model(embed_name)
+
+    embeddings = get_embedding_model(embedding_model)
     persist_dir = (
         default_config.chroma_persist_dir
-        if store_type == "chroma"
+        if store_type.lower() == "chroma"
         else default_config.faiss_persist_dir
     )
+
     vector_store = VectorStoreManager.create_vector_store(
         store_type=store_type,
         documents=chunks,
         embeddings=embeddings,
         persist_dir=persist_dir,
     )
-    retriever = VectorStoreManager.get_retriever(vector_store, k=k)
+    retriever = VectorStoreManager.get_retriever(vector_store, k=3)
     memory = MemoryManager(max_history_messages=20)
-    rag_chain = ConversationalRAGChain(
+
+    chain = ConversationalRAGChain(
         retriever=retriever,
         groq_api_key=api_key,
         model_name=model_name,
-        temperature=temp,
+        temperature=0.2,
         memory_manager=memory,
     )
-    st.session_state.rag_chain = rag_chain
-    st.session_state.indexed_docs_count = len(docs)
-    st.session_state.indexed_chunks_count = len(chunks)
-    st.session_state.active_vector_store = store_type
-    return rag_chain
+    return chain, len(chunks)
 
 
 # -----------------------------------------------------------------------------
-# Sidebar: Profile & Configuration
+# 3. Sidebar: Developer Profile & System Controls
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    # Profile Card
+    # Developer Profile Card
     st.markdown(
         """
-        <div class="profile-card">
-            <h3 style="margin-top:0; margin-bottom:0.3rem; color:#fff;">👨‍💻 Karan Bhardwaj</h3>
-            <p style="color:#ff8e53; font-weight:600; font-size:0.9rem; margin-bottom:0.8rem;">
-                Full Stack & AI Systems Engineer
-            </p>
-            <p style="font-size:0.82rem; color:#cbd5e0; line-height:1.4; margin-bottom:1rem;">
-                Specialized in architecting scalable automation-driven web applications, Generative AI, LangChain, and Groq API systems.
-            </p>
-            <div>
-                <a class="social-pill" href="https://karanbhardwaj.in" target="_blank">🌐 Portfolio</a>
-                <a class="social-pill" href="https://linkedin.com/in/karan-bhardwaj" target="_blank">💼 LinkedIn</a>
-                <a class="social-pill" href="https://github.com/karanongit" target="_blank">🐙 GitHub</a>
-                <a class="social-pill" href="mailto:karanbhardwaj1107@gmail.com">✉️ Email</a>
+        <div class="profile-container">
+            <div class="avatar-badge">KB</div>
+            <h2 class="profile-name">
+                Karan Bhardwaj <span class="verified-icon">✦</span>
+            </h2>
+            <div class="profile-role">Full Stack & AI Systems Engineer</div>
+            <div class="status-pill">
+                <div class="status-dot"></div> Available for AI & Full-Stack Roles
+            </div>
+            <div style="font-size:0.8rem; color:#94A3B8; line-height:1.45; margin-bottom:1rem;">
+                📍 Sahibzada Ajit Singh Nagar, Punjab, India<br>
+                🎓 B.Tech CSE — Galgotias University
+            </div>
+            <div class="social-grid">
+                <a class="social-btn" href="https://karanbhardwaj.in" target="_blank">🌐 Portfolio</a>
+                <a class="social-btn" href="https://linkedin.com/in/karan-bhardwaj" target="_blank">💼 LinkedIn</a>
+                <a class="social-btn" href="https://github.com/karanongit" target="_blank">🐙 GitHub</a>
+                <a class="social-btn" href="mailto:karanbhardwaj1107@gmail.com">✉️ Email</a>
             </div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    st.markdown("### ⚙️ RAG Engine Settings")
+    st.markdown("### ⚡ Inference & RAG Settings")
 
-    # API Keys
     groq_api_key = st.text_input(
         "Groq API Key",
         value=os.getenv("GROQ_API_KEY", ""),
         type="password",
-        help="Groq API key for ultra-fast LPU inference (auto-loaded from .env)",
+        help="Groq API key (auto-loaded from .env). Powers ultra-low-latency LPU inference.",
     )
 
-    # Model Selection
     selected_model = st.selectbox(
         "Groq LLM Model",
         options=AVAILABLE_GROQ_MODELS,
         index=0,
+        help="LLaMA 3.3 70B delivers state-of-the-art conversational reasoning at >300 tokens/sec.",
     )
 
-    # Vector Store Selection
     selected_store = st.selectbox(
         "Vector Store Backend",
         options=SUPPORTED_VECTOR_STORES,
         index=0,
         format_func=lambda s: {
-            "faiss": "FAISS (Local In-Memory / Ultra-Fast)",
-            "chroma": "ChromaDB (Local Persistent)",
+            "faiss": "FAISS (In-Memory / Instant Search)",
+            "chroma": "ChromaDB (Persistent Vector DB)",
             "pinecone": "Pinecone (Cloud Managed)",
         }.get(s, s.upper()),
     )
 
-    # Advanced Settings Expander
-    with st.expander("🔧 Advanced Parameters", expanded=False):
+    with st.expander("⚙️ Advanced Parameters", expanded=False):
         selected_embedding = st.selectbox(
             "Embedding Model",
             options=AVAILABLE_EMBEDDING_MODELS,
             index=0,
         )
-        temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.2, step=0.05)
-        chunk_size = st.slider("Chunk Size", min_value=200, max_value=2000, value=800, step=50)
-        chunk_overlap = st.slider("Chunk Overlap", min_value=0, max_value=500, value=150, step=25)
-        top_k = st.slider("Top-K Retrieved Chunks", min_value=1, max_value=8, value=3, step=1)
+        chunk_size = st.slider("Chunk Size", 200, 2000, 800, 50)
+        chunk_overlap = st.slider("Chunk Overlap", 0, 500, 150, 25)
+        top_k = st.slider("Top-K Retrieval", 1, 8, 3, 1)
 
     st.markdown("---")
 
-    # Metrics
-    st.markdown("### 📊 Active Knowledge Index")
-    col1, col2 = st.columns(2)
-    col1.metric("Documents", st.session_state.indexed_docs_count)
-    col2.metric("Chunks", st.session_state.indexed_chunks_count)
-    if st.session_state.active_vector_store:
-        st.caption(f"Backend: `{st.session_state.active_vector_store.upper()}`")
+    # System Status Indicator
+    st.markdown("### 📊 Active Knowledge Status")
+    k_col1, k_col2 = st.columns(2)
+    k_col1.metric("Documents", "1 (Resume)")
+    k_col2.metric("Index Chunks", st.session_state.indexed_chunks_count or 3)
+
+    st.caption(f"Engine: `Groq LPU` | Model: `{selected_model.split('-')[0].upper()}` | VectorStore: `{selected_store.upper()}`")
 
     st.markdown("---")
 
-    # Reset Actions
-    if st.button("🧹 Clear Chat History", use_container_width=True):
+    # Actions
+    if st.button("🧹 Clear Conversation Memory", use_container_width=True):
         st.session_state.messages = []
         if st.session_state.rag_chain:
             st.session_state.rag_chain.clear_history(st.session_state.session_id)
-        st.toast("Chat memory cleared!", icon="🧹")
+        st.toast("Chat memory reset!", icon="🧹")
         st.rerun()
 
-    # Export Transcript
     if st.session_state.messages:
         chat_export = json.dumps(st.session_state.messages, indent=2)
         st.download_button(
@@ -269,242 +458,168 @@ with st.sidebar:
 
 
 # -----------------------------------------------------------------------------
-# Auto-Index Karan Bhardwaj Resume on Initial Load
+# 4. Auto-Initialize RAG Pipeline
 # -----------------------------------------------------------------------------
-if groq_api_key and not st.session_state.auto_indexed and RESUME_PATH.exists():
+if groq_api_key:
     try:
-        resume_docs = DocumentLoaderManager.load_from_file(str(RESUME_PATH))
-        initialize_rag_system(
-            docs=resume_docs,
+        chain, count = load_cached_rag_engine(
             api_key=groq_api_key,
             model_name=selected_model,
             store_type=selected_store,
-            embed_name=AVAILABLE_EMBEDDING_MODELS[0],
-            c_size=800,
-            c_overlap=150,
-            k=3,
-            temp=0.2,
+            embedding_model=AVAILABLE_EMBEDDING_MODELS[0],
         )
-        st.session_state.auto_indexed = True
+        st.session_state.rag_chain = chain
+        st.session_state.indexed_chunks_count = count
+        st.session_state.active_vector_store = selected_store
     except Exception as e:
-        st.sidebar.error(f"Auto-index error: {e}")
+        st.sidebar.error(f"Initialization notice: {e}")
 
 
 # -----------------------------------------------------------------------------
-# Hero Header
+# 5. Main Hero Section
 # -----------------------------------------------------------------------------
-st.markdown('<div class="hero-title">⚡ Karan Bhardwaj — Conversational AI & Resume RAG</div>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="hero-subtitle">Ask anything about <strong>Karan Bhardwaj</strong>\'s professional experience, projects, skills, and AI engineering expertise. Powered by <strong>LangChain</strong> and <strong>Groq LPU (LLaMA 3.3 70B)</strong>.</div>',
+    """
+    <div class="hero-wrapper">
+        <div class="hero-tag">⚡ Live Conversational AI Persona</div>
+        <h1 class="hero-title">Karan Bhardwaj <span>AI Assistant</span></h1>
+        <p class="hero-desc">
+            Explore <strong>Karan Bhardwaj's</strong> professional journey, engineering achievements, autonomous AI systems (such as <em>FHMNews.com</em> &amp; <em>Socioglamm</em>), full-stack architectures, and technical skills in real time. Powered by <strong>LangChain LCEL</strong> and <strong>Groq LPU™ (LLaMA 3.3 70B)</strong>.
+        </p>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
 # -----------------------------------------------------------------------------
-# Quick Starter Prompts
+# 6. Interactive Quick-Prompt Chips
 # -----------------------------------------------------------------------------
-st.markdown("##### 💡 Suggested Questions")
-q_col1, q_col2, q_col3, q_col4 = st.columns(4)
+st.markdown("#### 💡 Suggested Inquiries")
+col_q1, col_q2 = st.columns(2)
+col_q3, col_q4 = st.columns(2)
 
-selected_starter_prompt = None
+with col_q1:
+    if st.button("🛠️ Technical Skills & AI Stack", use_container_width=True, help="Query Karan's frontend, backend, and AI proficiencies"):
+        st.session_state.quick_prompt_query = "What are Karan Bhardwaj's core technical skills, programming languages, and AI proficiencies?"
 
-with q_col1:
-    if st.button("🛠️ Technical Skills", use_container_width=True):
-        selected_starter_prompt = "What are Karan Bhardwaj's core technical skills, programming languages, and AI expertise?"
+with col_q2:
+    if st.button("🚀 Featured Projects (FHMNews & Socioglamm)", use_container_width=True, help="Query details on Karan's key project architectures"):
+        st.session_state.quick_prompt_query = "Tell me in detail about Karan's key projects such as FHMNews, Socioglamm, and Carsnbike."
 
-with q_col2:
-    if st.button("🚀 Projects Overview", use_container_width=True):
-        selected_starter_prompt = "Tell me about Karan's key projects like FHMNews and Socioglamm."
+with col_q3:
+    if st.button("💼 Work Experience & Roles", use_container_width=True, help="Query experience at Creative Volt and Flyhead Media"):
+        st.session_state.quick_prompt_query = "Summarize Karan Bhardwaj's work experience at Creative Volt and Flyhead Media."
 
-with q_col3:
-    if st.button("💼 Work Experience", use_container_width=True):
-        selected_starter_prompt = "What is Karan's work experience at Creative Volt and Flyhead Media?"
+with col_q4:
+    if st.button("📬 Education, Portfolio & Contact", use_container_width=True, help="Query degree, links, and direct contact info"):
+        st.session_state.quick_prompt_query = "What is Karan Bhardwaj's education background, and how can I contact him directly?"
 
-with q_col4:
-    if st.button("📬 Contact & Links", use_container_width=True):
-        selected_starter_prompt = "How can I contact Karan Bhardwaj, and what are his portfolio, GitHub, and LinkedIn links?"
-
-
-# -----------------------------------------------------------------------------
-# Document Ingestion / Custom Document Expander
-# -----------------------------------------------------------------------------
-with st.expander("📂 Knowledge Source & Document Manager", expanded=not st.session_state.auto_indexed):
-    tab_current, tab_custom = st.tabs(["📄 Active Resume Knowledge Base", "➕ Upload Additional Document"])
-
-    with tab_current:
-        st.markdown(
-            f"""
-            **Currently Loaded Document**: `karan_bhardwaj_resume.md`  
-            - **Candidate**: **Karan Bhardwaj** (Full Stack & AI Engineer)
-            - **Indexed Status**: {'✅ Active and ready to chat' if st.session_state.rag_chain else '⚠️ Needs API key'}
-            - **Contact**: `karanbhardwaj1107@gmail.com` | `+91 6202640773`
-            - **Portfolio**: [karanbhardwaj.in](https://karanbhardwaj.in)
-            """
-        )
-        if st.button("🔄 Re-Index Karan's Resume", type="primary"):
-            if not groq_api_key:
-                st.error("Please enter your Groq API Key in the sidebar.")
-            elif RESUME_PATH.exists():
-                with st.spinner("Indexing Karan Bhardwaj's Resume..."):
-                    resume_docs = DocumentLoaderManager.load_from_file(str(RESUME_PATH))
-                    initialize_rag_system(
-                        docs=resume_docs,
-                        api_key=groq_api_key,
-                        model_name=selected_model,
-                        store_type=selected_store,
-                        embed_name=selected_embedding,
-                        c_size=chunk_size,
-                        c_overlap=chunk_overlap,
-                        k=top_k,
-                        temp=temperature,
-                    )
-                    st.success("Successfully indexed Karan Bhardwaj's resume!")
-                    st.rerun()
-
-    with tab_custom:
-        custom_files = st.file_uploader(
-            "Upload an additional document (PDF, TXT, DOCX, Markdown):",
-            type=["pdf", "txt", "docx", "md"],
-            accept_multiple_files=True,
-        )
-        if custom_files and st.button("Index Uploaded Documents"):
-            if not groq_api_key:
-                st.error("Please enter a Groq API Key in the sidebar.")
-            else:
-                with st.spinner("Processing documents..."):
-                    docs = []
-                    for f in custom_files:
-                        docs.extend(DocumentLoaderManager.load_from_upload(f.name, f.read()))
-                    initialize_rag_system(
-                        docs=docs,
-                        api_key=groq_api_key,
-                        model_name=selected_model,
-                        store_type=selected_store,
-                        embed_name=selected_embedding,
-                        c_size=chunk_size,
-                        c_overlap=chunk_overlap,
-                        k=top_k,
-                        temp=temperature,
-                    )
-                    st.success(f"Indexed {len(docs)} custom document sections!")
-                    st.rerun()
-
-
-# -----------------------------------------------------------------------------
-# Conversational Chat Area
-# -----------------------------------------------------------------------------
 st.markdown("---")
 
-# Render conversation history
+
+# -----------------------------------------------------------------------------
+# 7. Conversational Chat Display
+# -----------------------------------------------------------------------------
 for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
+    with st.chat_message(msg["role"], avatar="👨‍💻" if msg["role"] == "user" else "⚡"):
         st.markdown(msg["content"])
         if "sources" in msg and msg["sources"]:
-            with st.expander("🔍 View Retrieved Sources & Resume Citations", expanded=False):
+            with st.expander("🔍 Verified Resume Citations", expanded=False):
                 for idx, src in enumerate(msg["sources"], 1):
-                    source_name = src.get("source", "Karan Bhardwaj Resume")
                     st.markdown(
                         f"""
-                        <div class="source-card">
-                            <strong>[{idx}] {source_name}</strong><br>
-                            <span style="font-size:0.88rem; color:#cbd5e0;">{src.get('content')}</span>
+                        <div class="source-box">
+                            <div class="source-title">📄 Citation [{idx}] — {src.get('source', 'Karan Bhardwaj Resume')}</div>
+                            <div class="source-snippet">{src.get('content')}</div>
                         </div>
                         """,
                         unsafe_allow_html=True,
                     )
 
-# Determine user input (from chat box or quick prompt buttons)
-user_query = st.chat_input("Ask a question about Karan Bhardwaj...")
-active_prompt = selected_starter_prompt or user_query
+# Process Prompt (from input box or quick prompt click)
+typed_input = st.chat_input("Ask a question about Karan Bhardwaj...")
+prompt_to_run = st.session_state.quick_prompt_query or typed_input
 
-if active_prompt:
+# Reset quick prompt state after reading
+if st.session_state.quick_prompt_query:
+    st.session_state.quick_prompt_query = None
+
+if prompt_to_run:
     if not groq_api_key:
-        st.error("Please enter a Groq API Key in the sidebar to chat.")
+        st.error("Please enter a valid Groq API Key in the sidebar to enable the AI Persona.")
     elif not st.session_state.rag_chain:
-        if RESUME_PATH.exists():
-            with st.spinner("Initializing RAG index..."):
-                resume_docs = DocumentLoaderManager.load_from_file(str(RESUME_PATH))
-                initialize_rag_system(
-                    docs=resume_docs,
-                    api_key=groq_api_key,
-                    model_name=selected_model,
-                    store_type=selected_store,
-                    embed_name=selected_embedding,
-                    c_size=chunk_size,
-                    c_overlap=chunk_overlap,
-                    k=top_k,
-                    temp=temperature,
-                )
-                st.session_state.auto_indexed = True
+        st.warning("RAG engine is initializing. Please click Re-Index in the sidebar.")
+    else:
+        # Add user message
+        st.session_state.messages.append({"role": "user", "content": prompt_to_run})
+        with st.chat_message("user", avatar="👨‍💻"):
+            st.markdown(prompt_to_run)
 
-    if st.session_state.rag_chain and groq_api_key:
-        # Append and display user message
-        st.session_state.messages.append({"role": "user", "content": active_prompt})
-        with st.chat_message("user"):
-            st.markdown(active_prompt)
-
-        # Stream response
-        with st.chat_message("assistant"):
-            placeholder = st.empty()
-            full_reply = ""
+        # Stream assistant response
+        with st.chat_message("assistant", avatar="⚡"):
+            response_container = st.empty()
+            streaming_text = ""
             retrieved_sources = []
 
             try:
                 for chunk in st.session_state.rag_chain.stream_query(
-                    active_prompt, session_id=st.session_state.session_id
+                    prompt_to_run, session_id=st.session_state.session_id
                 ):
                     if chunk["type"] == "token":
-                        full_reply += chunk["content"]
-                        placeholder.markdown(full_reply + "▌")
+                        streaming_text += chunk["content"]
+                        response_container.markdown(streaming_text + " ▌")
                     elif chunk["type"] == "sources":
                         retrieved_sources = chunk["documents"]
 
-                placeholder.markdown(full_reply)
+                # Render final markdown without cursor
+                response_container.markdown(streaming_text)
 
-                # Render sources
+                # Format source citations
                 formatted_sources = []
                 if retrieved_sources:
-                    with st.expander("🔍 View Retrieved Sources & Resume Citations", expanded=False):
+                    with st.expander("🔍 Verified Resume Citations", expanded=False):
                         for idx, doc in enumerate(retrieved_sources, 1):
-                            source_title = doc.metadata.get("source") or "Karan Bhardwaj Resume"
-                            src_info = {
-                                "source": source_title,
-                                "content": doc.page_content.strip(),
-                            }
-                            formatted_sources.append(src_info)
+                            src_name = doc.metadata.get("source", "Karan Bhardwaj Resume")
+                            content = doc.page_content.strip()
+                            formatted_sources.append({"source": src_name, "content": content})
                             st.markdown(
                                 f"""
-                                <div class="source-card">
-                                    <strong>[{idx}] {source_title}</strong><br>
-                                    <span style="font-size:0.88rem; color:#cbd5e0;">{src_info['content']}</span>
+                                <div class="source-box">
+                                    <div class="source-title">📄 Citation [{idx}] — {src_name}</div>
+                                    <div class="source-snippet">{content}</div>
                                 </div>
                                 """,
                                 unsafe_allow_html=True,
                             )
 
+                # Save assistant turn to session state
                 st.session_state.messages.append(
                     {
                         "role": "assistant",
-                        "content": full_reply,
+                        "content": streaming_text,
                         "sources": formatted_sources,
                     }
                 )
 
             except Exception as e:
-                st.error(f"Error during response generation: {str(e)}")
+                st.error(f"Error during response synthesis: {str(e)}")
 
 
 # -----------------------------------------------------------------------------
-# Footer Signature
+# 8. Modern Footer Signature
 # -----------------------------------------------------------------------------
 st.markdown(
     """
-    <div class="footer-container">
-        ⚡ <strong>Karan Bhardwaj</strong> | Full Stack & AI Systems Engineer<br>
-        <a href="https://karanbhardwaj.in" target="_blank" style="color:#ff8e53; text-decoration:none; margin:0 8px;">Portfolio</a> •
-        <a href="https://linkedin.com/in/karan-bhardwaj" target="_blank" style="color:#ff8e53; text-decoration:none; margin:0 8px;">LinkedIn</a> •
-        <a href="https://github.com/karanongit" target="_blank" style="color:#ff8e53; text-decoration:none; margin:0 8px;">GitHub</a> •
-        <a href="mailto:karanbhardwaj1107@gmail.com" style="color:#ff8e53; text-decoration:none; margin:0 8px;">Contact</a><br>
-        <span style="font-size:0.78rem; color:#4a5568;">Crafted with LangChain & Groq LPU™ (LLaMA 3.3 70B)</span>
+    <div class="site-footer">
+        ⚡ <strong>Karan Bhardwaj</strong> — Full Stack & AI Systems Engineer<br>
+        <a href="https://karanbhardwaj.in" target="_blank">Portfolio</a> •
+        <a href="https://linkedin.com/in/karan-bhardwaj" target="_blank">LinkedIn</a> •
+        <a href="https://github.com/karanongit" target="_blank">GitHub</a> •
+        <a href="mailto:karanbhardwaj1107@gmail.com">karanbhardwaj1107@gmail.com</a> •
+        <a href="tel:+916202640773">+91 6202640773</a><br>
+        <span style="font-size:0.75rem; color:#475569; margin-top:0.35rem; display:inline-block;">
+            Engineered with LangChain LCEL &amp; Groq LPU™ (LLaMA 3.3 70B)
+        </span>
     </div>
     """,
     unsafe_allow_html=True,
