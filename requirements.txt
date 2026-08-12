@@ -1,0 +1,29 @@
+# Core LangChain & LLM
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-groq>=0.2.0
+
+# Embeddings & PyTorch
+langchain-huggingface>=0.1.0
+sentence-transformers>=2.2.0
+torchvision>=0.18.0
+
+# Vector Databases
+faiss-cpu>=1.8.0
+chromadb>=0.5.0
+pinecone>=5.0.0
+
+# Document Loaders & Processors
+pypdf>=4.0.0
+python-docx>=1.1.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+
+# Environment & Utilities
+python-dotenv>=1.0.0
+rich>=13.7.0
+pytest>=8.0.0
+
+# Web Application UI
+streamlit>=1.38.0
