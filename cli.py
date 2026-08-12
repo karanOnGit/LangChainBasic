@@ -31,8 +31,9 @@ console = Console()
 def display_welcome_banner():
     console.print(
         Panel.fit(
-            "[bold cyan]⚡ LangChain + Groq Conversational RAG[/bold cyan]\n"
-            "[dim]Ultra-fast multi-turn RAG with multi-vectorstore & memory support[/dim]",
+            "[bold cyan]⚡ Karan Bhardwaj — Conversational AI & Resume RAG[/bold cyan]\n"
+            "[bold yellow]Full Stack & AI Systems Engineer[/bold yellow] | [dim]karanbhardwaj.in[/dim]\n"
+            "[dim]Powered by LangChain LCEL & Groq (LLaMA 3.3 70B)[/dim]",
             border_style="cyan",
         )
     )
@@ -101,10 +102,10 @@ def main():
         console.print(f"[bold green]Scraping URL:[/bold green] {args.url}")
         documents = DocumentLoaderManager.load_from_url(args.url)
     else:
-        # Default to sample knowledge base if available
-        sample_path = Path(__file__).parent / "sample_data" / "knowledge_base.md"
+        # Default to Karan Bhardwaj's official resume
+        sample_path = Path(__file__).parent / "sample_data" / "karan_bhardwaj_resume.md"
         if sample_path.exists():
-            console.print(f"[bold yellow]No file specified. Using sample data:[/bold yellow] {sample_path.name}")
+            console.print(f"[bold yellow]No file specified. Loading default:[/bold yellow] [bold green]{sample_path.name}[/bold green] (Karan Bhardwaj's Resume)")
             documents = DocumentLoaderManager.load_from_file(str(sample_path))
         else:
             console.print("[bold red]Please provide a document file (-f) or URL (-u).[/bold red]")
