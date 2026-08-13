@@ -85,8 +85,30 @@ st.markdown(
 
     .block-container {{
         padding-top: 1.8rem !important;
-        padding-bottom: 4rem !important;
-        max-width: 960px !important;
+        padding-bottom: 5rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        max-width: 1360px !important;
+    }}
+
+    /* Chat Message full width & container optimization */
+    div[data-testid="stChatMessage"] {{
+        width: 100% !important;
+        padding: 0.9rem 1.2rem !important;
+        border-radius: 12px !important;
+        margin-bottom: 0.75rem !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid var(--border-color) !important;
+    }}
+
+    div[data-testid="stChatMessageContent"] {{
+        width: 100% !important;
+        font-size: 0.94rem !important;
+        line-height: 1.6 !important;
+    }}
+
+    div[data-testid="stChatFloatingInputContainer"] {{
+        max-width: 1360px !important;
     }}
 
     #MainMenu {{visibility: hidden;}}
