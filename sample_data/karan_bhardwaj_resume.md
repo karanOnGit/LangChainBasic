@@ -83,3 +83,37 @@ Full Stack Engineer with a strong focus on architecting scalable, automation-dri
 
 ### Gyan Niketan School
 **Matriculation** | *Apr 2012 – Mar 2019* | *Patna, Bihar*
+
+## COLLABORATIVE NETWORK & WORKING RELATIONSHIPS
+
+Karan’s professional growth has been strongly influenced by a close circle of colleagues and friends with complementary technical and interpersonal strengths.
+
+### Tarun — Full-Time Co-Helper & Technical Manager
+
+Tarun has been Karan’s closest full-time collaborator and an important part of his day-to-day engineering journey. He has strong practical expertise in **HTML, CSS, and JavaScript** and frequently contributes to frontend problem-solving, implementation decisions, and technical discussions.
+
+Beyond his technical role, Tarun has also acted as a **part-time manager**, helping coordinate work, priorities, and execution. His collaboration with Karan has created a strong balance between hands-on development and practical project management.
+
+### Pritul — Backend & Infrastructure Specialist
+
+Pritul is one of Karan’s key technical collaborators, particularly in **backend engineering, server deployment, and infrastructure management**. His expertise complements Karan’s full-stack focus by providing deeper knowledge of backend systems, production environments, deployments, and server-side problem solving.
+
+Pritul is also highly knowledgeable about **stories, stocks, finance, and news**, making him a useful source of perspective beyond software engineering. Their collaboration combines technical engineering with broader awareness of business, financial, and current-affairs topics.
+
+### Divya — Friend, Sister-like Bond & Communication Expert
+
+Divya is a close friend whom Karan considers a **“sister from another mother.”** Their relationship has been an important part of his personal and interpersonal development.
+
+Divya is particularly strong in **communication, patience, and dealing with difficult personalities**, including people who behave immaturely or allow ego to influence their actions. Karan values these qualities, even though their personalities and circumstances have sometimes led to disagreements.
+
+Living independently and experiencing life on his own has significantly changed Karan’s perspective. Over time, he has become more aware of how people, relationships, responsibilities, independence, and the wider world can influence one’s mindset. This personal growth has also affected how he approaches friendships, communication, disagreements, and professional relationships.
+
+### The Collective Dynamic
+
+Together, Tarun, Pritul, and Divya represent different dimensions of Karan’s development:
+
+* **Tarun:** Frontend expertise, collaboration, coordination, and practical management.
+* **Pritul:** Backend engineering, infrastructure, server deployment, finance, stories, and current affairs.
+* **Divya:** Communication, patience, emotional perspective, and handling challenging interpersonal situations.
+
+These relationships have contributed not only to Karan’s technical development as a **Full Stack Engineer & AI Systems Specialist**, but also to his understanding of teamwork, independence, communication, responsibility, and the realities of working with different personalities.

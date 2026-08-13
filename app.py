@@ -427,10 +427,6 @@ with st.sidebar:
             <div class="avail-badge">
                 <div class="avail-dot"></div> Available for AI &amp; Full Stack Roles
             </div>
-            <div style="font-size:0.78rem; color:#64748B; margin-bottom:0.75rem;">
-                📍 Sahibzada Ajit Singh Nagar, Punjab<br>
-                🎓 B.Tech CSE — Galgotias University
-            </div>
             <div class="social-btn-grid">
                 <a class="social-link" href="https://karanbhardwaj.in" target="_blank">🌐 Portfolio</a>
                 <a class="social-link" href="https://linkedin.com/in/karan-bhardwaj" target="_blank">💼 LinkedIn</a>
