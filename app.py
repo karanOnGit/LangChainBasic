@@ -457,12 +457,8 @@ with st.sidebar:
 
     st.markdown("#### System Settings")
 
-    groq_api_key = st.text_input(
-        "Groq API Key",
-        value=get_secret("GROQ_API_KEY", "") or os.getenv("GROQ_API_KEY", ""),
-        type="password",
-        help="Groq API Key for ultra-fast LPU inference (auto-loaded from Streamlit Secrets or .env).",
-    )
+    # Groq API key is securely loaded from Streamlit Secrets or backend environment
+    groq_api_key = get_secret("GROQ_API_KEY", "") or os.getenv("GROQ_API_KEY", "")
 
     selected_model = st.selectbox(
         "Groq LLM Model",
@@ -629,7 +625,7 @@ with st.expander("📂 Knowledge Sources & Document Hub (Upload PDFs, Docs, or U
         )
         if st.button("🔄 Activate Karan Bhardwaj Resume Mode", use_container_width=False):
             if not groq_api_key:
-                st.error("Please provide a Groq API Key in the sidebar.")
+                st.error("AI service is initializing. Please ensure GROQ_API_KEY is configured in backend secrets.")
             else:
                 with st.spinner("Loading Karan Bhardwaj Profile..."):
                     chain, count = load_default_resume_pipeline(
@@ -653,7 +649,7 @@ with st.expander("📂 Knowledge Sources & Document Hub (Upload PDFs, Docs, or U
         with col_btn1:
             if st.button("🚀 Index & Build Vector Store for Custom Knowledge", type="primary", use_container_width=True):
                 if not groq_api_key:
-                    st.error("Please enter a valid Groq API Key in the sidebar.")
+                    st.error("AI service is initializing. Please ensure GROQ_API_KEY is configured in backend secrets.")
                 else:
                     with st.status("Indexing documents and building vector store...", expanded=True) as status:
                         st.write(f"1. Chunking {len(uploaded_custom_docs)} document sections...")
@@ -773,7 +769,7 @@ if st.session_state.prompt_query:
 
 if active_query:
     if not groq_api_key:
-        st.error("Please provide a valid Groq API Key in the sidebar.")
+        st.error("AI service is initializing. Please ensure GROQ_API_KEY is configured in backend secrets.")
     elif not st.session_state.rag_chain:
         st.warning("Knowledge base is initializing. Please check the sidebar or document hub.")
     else:
