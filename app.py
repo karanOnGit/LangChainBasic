@@ -1,6 +1,6 @@
 """
 ⚡ Karan Bhardwaj — Conversational AI & Resume RAG Portal
-Minimalist Light Theme Edition | Built with LangChain LCEL & Groq LPU™ (LLaMA 3.3 70B)
+Minimalist Light Theme Edition | Built with Love™
 """
 
 import os
@@ -458,7 +458,7 @@ if groq_api_key:
 st.markdown(
     """
     <div class="hero-header">
-        <div class="hero-pill">⚡ Conversational AI Persona</div>
+        <div class="hero-pill">⚡ Ask </div>
         <h1 class="hero-title">Karan Bhardwaj</h1>
         <p class="hero-desc">
             Explore <strong>Karan Bhardwaj's</strong> professional experience, autonomous AI pipelines (<em>FHMNews.com</em>, <em>Socioglamm</em>), full-stack web applications, and technical skills in real time. Powered by <strong>LangChain LCEL</strong> and <strong>Groq LPU™ (LLaMA 3.3 70B)</strong>.
