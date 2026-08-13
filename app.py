@@ -10,6 +10,7 @@ import base64
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 import streamlit as st
+import streamlit.components.v1 as components
 
 from src.config import (
     RAGConfig,
@@ -34,6 +35,21 @@ st.set_page_config(
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded",
+)
+
+# Microsoft Clarity Analytics Tracking
+components.html(
+    """
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window.parent || window, (window.parent ? window.parent.document : document), "clarity", "script", "y1lsgw31l6");
+    </script>
+    """,
+    height=0,
+    width=0,
 )
 
 RESUME_PATH = Path(__file__).parent / "sample_data" / "karan_bhardwaj_resume.md"
