@@ -12,6 +12,8 @@ torchvision>=0.18.0
 # Vector Databases
 faiss-cpu>=1.8.0
 chromadb>=0.5.0
+langchain-chroma>=0.1.0
+langchain-pinecone>=0.1.0
 pinecone>=5.0.0
 
 # Document Loaders & Processors

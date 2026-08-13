@@ -15,7 +15,14 @@ from langchain_core.vectorstores import VectorStore, VectorStoreRetriever
 
 # Vector store implementations
 from langchain_community.vectorstores import FAISS
-from langchain_chroma import Chroma
+
+try:
+    from langchain_chroma import Chroma
+except ImportError:
+    try:
+        from langchain_community.vectorstores import Chroma
+    except ImportError:
+        Chroma = None
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +63,11 @@ class VectorStoreManager:
             return vector_store
 
         elif store_type == "chroma":
+            if Chroma is None:
+                raise ImportError(
+                    "langchain-chroma or chromadb must be installed to use Chroma vector store. "
+                    "Please install `langchain-chroma`."
+                )
             if persist_dir:
                 os.makedirs(persist_dir, exist_ok=True)
                 vector_store = Chroma.from_documents(
@@ -138,6 +150,8 @@ class VectorStoreManager:
             return None
 
         elif store_type == "chroma":
+            if Chroma is None:
+                return None
             if persist_dir and os.path.exists(persist_dir):
                 logger.info(f"Loading existing ChromaDB from '{persist_dir}'")
                 return Chroma(
