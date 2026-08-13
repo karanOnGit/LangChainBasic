@@ -1,6 +1,6 @@
 """
 ⚡ Karan Bhardwaj — Conversational AI & Multi-Document RAG Portal
-Minimalist Light Theme Edition | Built with LangChain LCEL & Groq LPU™ (LLaMA 3.3 70B)
+Minimalist Light Theme Edition | Made with Love 🤍
 Supports multi-file uploads (PDF, DOCX, TXT, MD), Web URL scraping, and instant multi-turn Q&A.
 """
 
@@ -812,10 +812,9 @@ st.markdown(
         <a href="https://karanbhardwaj.in" target="_blank">Portfolio</a> ·
         <a href="https://linkedin.com/in/karan-bhardwaj" target="_blank">LinkedIn</a> ·
         <a href="https://github.com/karanongit" target="_blank">GitHub</a> ·
-        <a href="mailto:karanbhardwaj1107@gmail.com">karanbhardwaj1107@gmail.com</a> ·
-        <a href="tel:+916202640773">+91 6202640773</a><br>
-        <span style="font-size:0.72rem; color:#94A3B8; margin-top:0.35rem; display:inline-block;">
-            Built with LangChain LCEL &amp; Groq LPU™ (LLaMA 3.3 70B)
+        <a href="mailto:karanbhardwaj1107@gmail.com">karanbhardwaj1107@gmail.com</a><br>
+        <span style="font-size:0.75rem; color:#94A3B8; margin-top:0.35rem; display:inline-block;">
+            Made with Love 🤍
         </span>
     </div>
     """,

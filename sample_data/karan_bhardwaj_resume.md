@@ -2,7 +2,6 @@
 **Full Stack Engineer & AI Systems Specialist**
 
 - **Location**: Sahibzada Ajit Singh Nagar, Punjab, India
-- **Phone**: [+91 6202640773](tel:+916202640773)
 - **Email**: [karanbhardwaj1107@gmail.com](mailto:karanbhardwaj1107@gmail.com)
 - **Portfolio / Website**: [karanbhardwaj.in](https://karanbhardwaj.in)
 - **LinkedIn**: [linkedin.com/in/karan-bhardwaj](https://linkedin.com/in/karan-bhardwaj)

@@ -13,7 +13,6 @@
 **Full Stack Engineer** with a deep specialization in architecting scalable, automation-driven web applications and AI-powered systems. Expert in combining **Generative AI**, **LangChain**, **Groq LPU API**, **FastAPI**, **Next.js**, and **Multi-VectorStore Architectures** to solve real-world problems.
 
 - **Location**: Sahibzada Ajit Singh Nagar, Punjab, India
-- **Phone**: +91 6202640773
 - **Portfolio**: [karanbhardwaj.in](https://karanbhardwaj.in)
 - **Education**: B.Tech in Computer Software Engineering, Galgotias University
 
@@ -137,4 +136,7 @@ python cli.py
 - **LinkedIn**: [linkedin.com/in/karan-bhardwaj](https://linkedin.com/in/karan-bhardwaj)
 - **GitHub**: [github.com/karanongit](https://github.com/karanongit)
 - **Email**: [karanbhardwaj1107@gmail.com](mailto:karanbhardwaj1107@gmail.com)
-- **Phone**: +91 6202640773
+
+---
+
+<p align="center">Made with Love 🤍 by <strong>Karan Bhardwaj</strong></p>
