@@ -92,9 +92,19 @@ class DocumentLoaderManager:
 
     @classmethod
     def load_from_url(cls, url: str) -> List[Document]:
-        """Loads and extracts text content from a web URL."""
+        """Loads and extracts clean text content from a web URL."""
+        url = url.strip()
+        if not url.startswith(("http://", "https://")):
+            url = "https://" + url
+
         try:
-            loader = WebBaseLoader(web_path=url)
+            # First try WebBaseLoader with a custom user-agent
+            loader = WebBaseLoader(
+                web_path=url,
+                header_template={
+                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                },
+            )
             documents = loader.load()
             for doc in documents:
                 doc.metadata["source"] = url
@@ -102,7 +112,39 @@ class DocumentLoaderManager:
                 doc.metadata["file_type"] = "web"
             return documents
         except Exception as e:
-            raise RuntimeError(f"Error scraping URL '{url}': {str(e)}") from e
+            # Fallback to requests + BeautifulSoup
+            try:
+                import requests
+                from bs4 import BeautifulSoup
+
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                }
+                resp = requests.get(url, headers=headers, timeout=12)
+                resp.raise_for_status()
+
+                soup = BeautifulSoup(resp.text, "html.parser")
+                # Remove scripts, styles, navigations
+                for tag in soup(["script", "style", "nav", "footer", "header", "noscript"]):
+                    tag.decompose()
+
+                text = soup.get_text(separator="\n", strip=True)
+                title = soup.title.string.strip() if soup.title and soup.title.string else url
+
+                return [
+                    Document(
+                        page_content=text,
+                        metadata={
+                            "source": url,
+                            "file_name": title,
+                            "file_type": "web",
+                        },
+                    )
+                ]
+            except Exception as fallback_err:
+                raise RuntimeError(
+                    f"Failed to fetch content from URL '{url}': {str(fallback_err)}"
+                ) from fallback_err
 
     @classmethod
     def load_from_text(cls, text: str, source_name: str = "raw_text") -> List[Document]:
