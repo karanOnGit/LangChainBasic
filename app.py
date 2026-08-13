@@ -16,6 +16,7 @@ from src.config import (
     AVAILABLE_GROQ_MODELS,
     AVAILABLE_EMBEDDING_MODELS,
     SUPPORTED_VECTOR_STORES,
+    get_secret,
 )
 from src.loaders import DocumentLoaderManager
 from src.splitters import TextSplitterManager
@@ -442,9 +443,9 @@ with st.sidebar:
 
     groq_api_key = st.text_input(
         "Groq API Key",
-        value=os.getenv("GROQ_API_KEY", ""),
+        value=get_secret("GROQ_API_KEY", "") or os.getenv("GROQ_API_KEY", ""),
         type="password",
-        help="Groq API Key for ultra-fast LPU inference (auto-loaded from .env).",
+        help="Groq API Key for ultra-fast LPU inference (auto-loaded from Streamlit Secrets or .env).",
     )
 
     selected_model = st.selectbox(

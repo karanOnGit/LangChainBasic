@@ -12,49 +12,63 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def get_secret(key: str, default: Optional[str] = None) -> Optional[str]:
+    """
+    Retrieves secret from Streamlit Cloud Secrets (st.secrets) first,
+    then falls back to environment variables / .env.
+    """
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return str(st.secrets[key])
+    except Exception:
+        pass
+    return os.getenv(key, default)
+
+
 @dataclass
 class RAGConfig:
     # Groq LLM Settings
     groq_api_key: Optional[str] = field(
-        default_factory=lambda: os.getenv("GROQ_API_KEY")
+        default_factory=lambda: get_secret("GROQ_API_KEY")
     )
     groq_model: str = field(
-        default_factory=lambda: os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+        default_factory=lambda: get_secret("GROQ_MODEL", "llama-3.3-70b-versatile")
     )
     temperature: float = field(
-        default_factory=lambda: float(os.getenv("LLM_TEMPERATURE", "0.2"))
+        default_factory=lambda: float(get_secret("LLM_TEMPERATURE", "0.2"))
     )
     max_tokens: int = field(
-        default_factory=lambda: int(os.getenv("LLM_MAX_TOKENS", "2048"))
+        default_factory=lambda: int(get_secret("LLM_MAX_TOKENS", "2048"))
     )
 
     # Embedding Settings
     embedding_model_name: str = field(
-        default_factory=lambda: os.getenv(
+        default_factory=lambda: get_secret(
             "EMBEDDING_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2"
         )
     )
 
     # Vector Store Settings
     vector_store_type: str = field(
-        default_factory=lambda: os.getenv("DEFAULT_VECTOR_STORE", "faiss").lower()
+        default_factory=lambda: get_secret("DEFAULT_VECTOR_STORE", "faiss").lower()
     )
     chroma_persist_dir: str = field(
-        default_factory=lambda: os.getenv("CHROMA_PERSIST_DIR", "./data/chroma_db")
+        default_factory=lambda: get_secret("CHROMA_PERSIST_DIR", "./data/chroma_db")
     )
     faiss_persist_dir: str = field(
-        default_factory=lambda: os.getenv("FAISS_PERSIST_DIR", "./data/faiss_index")
+        default_factory=lambda: get_secret("FAISS_PERSIST_DIR", "./data/faiss_index")
     )
 
     # Pinecone Settings
     pinecone_api_key: Optional[str] = field(
-        default_factory=lambda: os.getenv("PINECONE_API_KEY")
+        default_factory=lambda: get_secret("PINECONE_API_KEY")
     )
     pinecone_index_name: str = field(
-        default_factory=lambda: os.getenv("PINECONE_INDEX_NAME", "langchain-rag-index")
+        default_factory=lambda: get_secret("PINECONE_INDEX_NAME", "langchain-rag-index")
     )
     pinecone_environment: str = field(
-        default_factory=lambda: os.getenv("PINECONE_ENVIRONMENT", "us-east-1")
+        default_factory=lambda: get_secret("PINECONE_ENVIRONMENT", "us-east-1")
     )
 
     # Chunking & Retrieval Parameters
