@@ -73,13 +73,13 @@ class RAGConfig:
 
     # Chunking & Retrieval Parameters
     chunk_size: int = field(
-        default_factory=lambda: int(os.getenv("CHUNK_SIZE", "1000"))
+        default_factory=lambda: int(os.getenv("CHUNK_SIZE", "1500"))
     )
     chunk_overlap: int = field(
-        default_factory=lambda: int(os.getenv("CHUNK_OVERLAP", "200"))
+        default_factory=lambda: int(os.getenv("CHUNK_OVERLAP", "300"))
     )
     top_k: int = field(
-        default_factory=lambda: int(os.getenv("TOP_K_RETRIEVAL", "4"))
+        default_factory=lambda: int(os.getenv("TOP_K_RETRIEVAL", "6"))
     )
 
 

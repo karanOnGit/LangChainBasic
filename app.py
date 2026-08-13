@@ -377,9 +377,9 @@ def build_rag_pipeline_from_documents(
     api_key: str,
     model_name: str,
     store_type: str = "faiss",
-    chunk_size: int = 800,
-    chunk_overlap: int = 150,
-    top_k: int = 3,
+    chunk_size: int = 1500,
+    chunk_overlap: int = 300,
+    top_k: int = 6,
     temperature: float = 0.2,
 ):
     """Chunks documents, builds vector store, and creates ConversationalRAGChain."""
@@ -479,9 +479,9 @@ with st.sidebar:
     )
 
     with st.expander("⚙️ RAG Hyperparameters", expanded=False):
-        chunk_size = st.slider("Chunk Size", 200, 2000, 800, 50)
-        chunk_overlap = st.slider("Chunk Overlap", 0, 500, 150, 25)
-        top_k = st.slider("Top-K Retrieval", 1, 8, 3, 1)
+        chunk_size = st.slider("Chunk Size", 200, 3000, 1500, 50)
+        chunk_overlap = st.slider("Chunk Overlap", 0, 800, 300, 25)
+        top_k = st.slider("Top-K Retrieval", 1, 15, 6, 1)
 
     st.markdown("---")
 

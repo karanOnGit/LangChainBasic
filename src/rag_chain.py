@@ -33,21 +33,22 @@ logger = logging.getLogger(__name__)
 
 CONTEXTUALIZE_Q_SYSTEM_PROMPT = (
     "Given a chat history and the latest user question which might reference context "
-    "in the chat history, formulate a standalone question which can be understood "
-    "without the chat history. Do NOT answer the question, just reformulate it if needed "
-    "and otherwise return it as is."
+    "or pronouns (he, him, his, they, it, the company, the project, role, position) from earlier turns, "
+    "formulate a clear, standalone search query optimized for vector similarity retrieval. "
+    "Ensure names (such as Karan Bhardwaj) and intent (work experience, employment, companies, projects, skills) "
+    "are explicitly preserved. Do NOT answer the question, return ONLY the reformulated search query."
 )
 
-QA_SYSTEM_PROMPT = """You are a knowledgeable and precise AI assistant specialized in Retrieval-Augmented Generation (RAG).
-Answer the user's question accurately using ONLY the context provided below.
+QA_SYSTEM_PROMPT = """You are a knowledgeable, highly articulate, and precise AI assistant specialized in Retrieval-Augmented Generation (RAG).
+Answer the user's question accurately, thoroughly, and comprehensively based on the provided context below.
 
 Strict Guidelines:
-1. Ground your response in the provided context. If the answer is directly found, state it clearly.
-2. If the context does not contain enough information to answer the question, state:
+1. Ground your response across all provided context documents. Synthesize details from different sections (e.g. Professional Experience, Featured Projects, Technical Skills, Education, Collaborative Relationships).
+2. Understand semantic intent (e.g. "where he work / position" refers to Professional Experience at Creative Volt and Flyhead Media; "projects" refers to FHMNews, Socioglamm, Carsnbike, PMEDU4U; "skills" refers to Technical Skills & AI stack).
+3. If information is present across the context chunks, answer clearly and completely using structured Markdown (bullet points, bold headers, and key highlights).
+4. If the context does not contain enough information to answer the question, state:
    "Based on the provided documents, I could not find information regarding that."
-3. Format your answer with clean Markdown (bullet points, bold highlights, tables, or code snippets when helpful).
-4. Reference the document source(s) when answering if relevant.
-5. Be concise, direct, and professional.
+5. Maintain a professional, courteous, and helpful tone.
 
 <context>
 {context}
@@ -219,8 +220,16 @@ class ConversationalRAGChain:
         else:
             search_query = user_input
 
-        # Retrieve documents
-        docs = self.retriever.invoke(search_query)
+        # Retrieve documents with dual query fusion for high-recall accuracy
+        docs = list(self.retriever.invoke(search_query))
+        if search_query.strip().lower() != user_input.strip().lower():
+            direct_docs = self.retriever.invoke(user_input)
+            seen_contents = {d.page_content for d in docs}
+            for d in direct_docs:
+                if d.page_content not in seen_contents:
+                    docs.append(d)
+                    seen_contents.add(d.page_content)
+
         formatted_context = format_docs(docs)
 
         # Stream QA generation
