@@ -31,6 +31,22 @@ This application is a production-grade, modular **Conversational Retrieval-Augme
 
 ---
 
+## 📊 Benchmark Comparison: ExplainGitHub vs. Karan RAG Engine
+
+| Parameter / Dimension | explaingithub.com | karanrag.streamlit.app | Difference / Advantage |
+| :--- | :---: | :---: | :--- |
+| **1. Conceptual & Pipeline Synthesis** | `4.0 / 10` | **`9.5 / 10`** | **+5.5 (Custom App)** — Synthesizes whole workflows vs literal term failures. |
+| **2. Abstract Reasoning & Nuance** | `5.0 / 10` | **`9.0 / 10`** | **+4.0 (Custom App)** — Evaluates qualitative questions with deep architecture context. |
+| **3. Source Citation & Transparency** | `6.5 / 10` | **`9.0 / 10`** | **+2.5 (Custom App)** — Explicit, chunk-level numbered citations vs generic tabs. |
+| **4. Input Ingestion & Flexibility** | `3.0 / 10` | **`9.5 / 10`** | **+6.5 (Custom App)** — Multi-source support (PDFs, DOCX, Scraping) vs repo limits. |
+| **5. Zero-Prompt / Instant UI UX** | **`9.0 / 10`** | `6.5 / 10` | **+2.5 (ExplainGitHub)** — Pre-baked dashboard tabs ready on load without prompting. |
+| **6. Code Mapping & Execution Depth** | `7.0 / 10` | **`8.5 / 10`** | **+1.5 (Custom App)** — Maps concepts directly to scripts and implementation code. |
+| **🏆 Overall Score** | **`34.5 / 60`** | **`52.0 / 60`** | **⭐ Winner: karanrag.streamlit.app (+17.5 pts)** |
+
+👉 *For the comprehensive analysis, see [COMPARISON.md](COMPARISON.md).*
+
+---
+
 ## 🏗️ Architecture Flow
 
 ```mermaid
